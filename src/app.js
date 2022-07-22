@@ -11,7 +11,6 @@ function init() {
     var myModal = new Modal(document.getElementById('exampleModal'));
 
     renderTodos();
-    listenValidation();
 
     const mainForm = document.forms.main;
     const mainFormInput = mainForm.input;
@@ -47,7 +46,7 @@ function init() {
 
 }
 
-function listenValidation() {
+(function () {
 
     var forms = document.querySelectorAll('.needs-validation');
 
@@ -62,7 +61,7 @@ function listenValidation() {
                 form.classList.add('was-validated');
             }, false);
         });
-}
+})();
 
 function renderTodos() {
 
