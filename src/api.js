@@ -1,37 +1,45 @@
 const Api = {
 
-    getData() {
+    async getData() {
+        const response = await fetch('http://146.190.226.226:8000/api/core/tasks');
+        const data = await response.json();
+        return data.content || [];
+    },
+
+    async addTodo(item) {
         try {
-            return JSON.parse(localStorage.getItem('items')) || [];
+            await fetch('http://146.190.226.226:8000/api/core/tasks', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: item.name,
+                    content: 'content'
+                })
+            });
         } catch (e) {
-            return [];
+            console.log(e);
         }
     },
 
-    setData(todoItems) {
-        localStorage.setItem('items', JSON.stringify(todoItems));
-    },
+    async removeById(id) {
+        console.log(id);
+        try {
+            await fetch('http://146.190.226.226:8000/api/core/tasks' + '/' + id, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
 
-    addTodo(item) {
-        const data = this.getData();
-        data.push(item);
-        this.setData(data);
-    },
+            });
 
-    removeTodo(index) {
-        const data = this.getData();
-        data.splice(index, 1);
-        this.setData(data);
-    },
-
-    removeById(id) {
-        const data = this.getData();
-        const newData = data.filter((item) => {
-            return item.id.toString() !== id.toString();
-        });
-        this.setData(newData);
+        } catch (e) {
+            console.log(e);
+        }
     }
-
 };
 
 export default Api;

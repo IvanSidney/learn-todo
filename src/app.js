@@ -19,14 +19,14 @@ function init() {
             e.preventDefault();
         } else {
             const input = mainFormInput.value;
-
             Api.addTodo({
-                name: input,
-                id: new Date().getTime()
+                name: input
+            }).then(() => {
+                myModal.hide();
+                mainFormInput.value = '';
+                renderTodos();
             });
-            myModal.hide();
-            input.value = '';
-            renderTodos();
+            e.preventDefault();
         }
     });
 
@@ -36,8 +36,9 @@ function init() {
 
             const liEl = el.closest('li');
 
-            Api.removeById(liEl.id);
-            renderTodos();
+            Api.removeById(liEl.id).then(() => {
+                renderTodos();
+            });
         }
 
     }, {
@@ -67,13 +68,12 @@ function renderTodos() {
 
     document.getElementById('container').innerHTML = '';
 
-    const data = Api.getData();
-
-    data.forEach((item) => {
-        const li = document.createElement('li');
-        li.id = item.id;
-        li.innerHTML =
-            `<div class="input-group mb-3">
+    Api.getData().then((data) => {
+        data.forEach((item) => {
+            const li = document.createElement('li');
+            li.id = item.id;
+            li.innerHTML =
+                `<div class="input-group mb-3">
                 <div class="input-group-text">
                     <input class="form-check-input mt-0" type="checkbox" value="">
                 </div>
@@ -82,9 +82,12 @@ function renderTodos() {
                     <button type="button" class="btn btn-primary remove-todo">Remove</button>
                 </div>
             </div>`;
-        document.getElementById('container').appendChild(li);
+            document.getElementById('container').appendChild(li);
 
-    });
+        });
+    }, (e) => console.log(e));
+
+
 
 }
 
