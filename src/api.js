@@ -30,7 +30,6 @@ const Api = {
             await fetch('http://146.190.226.226:8000/api/core/tasks' + '/' + id, {
                 method: 'DELETE',
                 headers: {
-                    'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
 

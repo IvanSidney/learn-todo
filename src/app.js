@@ -18,9 +18,9 @@ function init() {
         if (!mainFormInput.value) {
             e.preventDefault();
         } else {
-            const input = mainFormInput.value;
+            // const input = mainFormInput.value;
             Api.addTodo({
-                name: input
+                name: mainFormInput.value
             }).then(() => {
                 myModal.hide();
                 mainFormInput.value = '';
